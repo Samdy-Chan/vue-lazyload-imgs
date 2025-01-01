@@ -428,6 +428,9 @@
     argparse "~1.0.9"
     string-argv "~0.3.1"
 
+"@samdy-chan/vue-lazyload-imgs@./pkg":
+  version "1.0.0"
+
 "@types/argparse@1.0.38":
   version "1.0.38"
   resolved "https://registry.npmmirror.com/@types/argparse/-/argparse-1.0.38.tgz#a81fd8606d481f873a3800c6ebae4f1d768a56a9"

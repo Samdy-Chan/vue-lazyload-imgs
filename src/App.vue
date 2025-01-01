@@ -1,7 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import LazyImgs from '@/views/lazy-imgs.vue';
+</script>
 
 <template>
-  <div>App...</div>
+  <div>
+    <LazyImgs />
+  </div>
 </template>
 
 <style lang="scss" scoped></style>

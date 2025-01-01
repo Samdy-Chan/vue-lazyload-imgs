@@ -36,7 +36,9 @@
     // 路径别名
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    // 删除构建后文件中的注释
+    "removeComments": true,
   },
   "include": [
     "src/**/*.ts",
