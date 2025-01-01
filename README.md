@@ -22,9 +22,13 @@
 
 ## 使用方法
 
-- ### 执行 yarn switch 2 或 3 切换到 Vue2/Vu3 环境；
+- #### 首次使用本项目，需在项目根目录下执行 cd vue2 && yarn install 和 cd vue3 && yarn install 分别安装 vue2 和 vue3 环境相关依赖包；
 
-- ### 执行 yarn build 可打包当前 Vue 版本环境的 /src/components/lazy-load-imgs.vue 组件及其相关文件及TS类型声明文件到项目根目录的 dist/vue2 或 dist/vue3 目录下；
+- #### 然后在项目根目录下执行 mklink /j node_modules vue2/node_modules 或 vue3/node_modules 命令链接到 vue2 或 vue3 的依赖包目录，这是 Windows 目录链接命令， Linux 请使用 ln -s ./vue2/node_modules ./node_modules 命令；
 
-- ### 执行 yarn dev 可运行当前 vue 版本环境。
+- #### 执行 yarn switch 2 或 3 切换到 Vue2/Vu3 环境；
+
+- #### 执行 yarn build 可打包当前 Vue 版本环境的 /src/components/lazy-load-imgs.vue 组件及其相关文件和TS类型声明文件到项目根目录的 dist/vue2 或 dist/vue3 目录下；
+
+- #### 执行 yarn dev 可运行当前 vue 版本环境。
 
