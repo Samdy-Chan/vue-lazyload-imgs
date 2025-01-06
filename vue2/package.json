@@ -10,7 +10,8 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@vue/composition-api": "1.4.6",
+    "@samdy-chan/vue-lazyload-imgs": "../pkg",
+    "@vue/composition-api": "1.7.2",
     "nanoid": "^5.0.9",
     "vue": "2.6.14",
     "vue-demi": "^0.14.10"
