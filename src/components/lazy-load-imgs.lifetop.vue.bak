@@ -62,39 +62,8 @@ export default defineComponent({
   // 定义接收自定义事件或 v-model 双向梆定事件参数
   emits: ['update:modelValue'],
 
-  // setup 勾子函数
+  // setup 钩子函数
   setup(props, { emit, attrs /* , slots */ }) {
-    if (isVue2) {
-      console.log('这里是 Vue2 环境...');
-    } else if (isVue3) {
-      console.log('这里是 Vue3 环境...');
-    }
-
-    // console.log('props:', props);
-
-    // 把用户传过来的 Props 对象参数 lazyOptions 或 observerOptions 与默认的对象参数进行合并
-    const lazyOptions: ILazyOptions = Object.assign({}, lazyOptionsObj, props.lazyOptions);
-    const observerOptions: IntersectionObserverInit = Object.assign(
-      {},
-      observerOptionsObj,
-      props.observerOptions
-    );
-
-    // 保存 <img> 标签里 data-img-id 属性值的数组
-    let dataImgIdList: string[] = [];
-
-    // 【重点】创建图片懒加载实现类 Lazy 的实例对象
-    const lazy = new Lazy(lazyOptions, observerOptions);
-
-    // 当前组件实例ID（Lazy 类静态属性ID）
-    let instId = Lazy.instId;
-
-    // 获取 Vue app 实例引用（兼容 Vue2 写法：用于在 onBeforeMount 中 app.slots 获取插槽内容）
-    const app = getCurrentInstance();
-
-    // 创建用于实现懒加载图片监听器的 IntersectionObserver 类的实例对象
-    let imgObserver: IntersectionObserver;
-
     /******************** 生命周期钩子函数 - start ********************/
     /**
      * 本组件实例挂载前的钩子函数
@@ -176,6 +145,37 @@ export default defineComponent({
       imgObserver.disconnect();
     });
     /******************** 生命周期钩子函数 - end ********************/
+
+    if (isVue2) {
+      console.log('这里是 Vue2 环境...');
+    } else if (isVue3) {
+      console.log('这里是 Vue3 环境...');
+    }
+
+    // console.log('props:', props);
+
+    // 把用户传过来的 Props 对象参数 lazyOptions 或 observerOptions 与默认的对象参数进行合并
+    const lazyOptions: ILazyOptions = Object.assign({}, lazyOptionsObj, props.lazyOptions);
+    const observerOptions: IntersectionObserverInit = Object.assign(
+      {},
+      observerOptionsObj,
+      props.observerOptions
+    );
+
+    // 保存 <img> 标签里 data-img-id 属性值的数组
+    let dataImgIdList: string[] = [];
+
+    // 【重点】创建图片懒加载实现类 Lazy 的实例对象
+    const lazy = new Lazy(lazyOptions, observerOptions);
+
+    // 当前组件实例ID（Lazy 类静态属性ID）
+    let instId = Lazy.instId;
+
+    // 获取 Vue app 实例引用（兼容 Vue2 写法：用于在 onBeforeMount 中 app.slots 获取插槽内容）
+    const app = getCurrentInstance();
+
+    // 创建用于实现懒加载图片监听器的 IntersectionObserver 类的实例对象
+    let imgObserver: IntersectionObserver;
 
     // 暴露内部变量在组件实例身上（可供外部读取）
     return {

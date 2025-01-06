@@ -123,8 +123,10 @@ export default defineConfig({
     },
     sourcemap: true,
     rollupOptions: {
-      // 确保外部化处理那些你不想打包进库的依赖
-      external: ['vue', 'vue-demi'],
+      // 确保外部化处理那些你不想打包进库的依赖；
+      // 【注】打包发布到 npm 或在没有 vue-demi 包的测试项目中，必须要注释掉 vue-demi，必须要包含 vue-demi，
+      // 但在已安装 vue-demi 包的本项目中，要排除（不能注释）该项，才能正常运行打包的 lazy-load-imgs.vue 组件
+      external: ['vue' /* , 'vue-demi' */],
       output: {
         // 入口模块的输出文件名，[name]为 build.lib.entry 的文件名，如 index，所以这里不用[name]
         entryFileNames: 'lazy-load-imgs.[format].js',

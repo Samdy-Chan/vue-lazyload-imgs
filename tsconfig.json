@@ -3,5 +3,9 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  // Configure for run build of Vue2
+  "vueCompilerOptions": {
+    "target": 2
+  }
 }
