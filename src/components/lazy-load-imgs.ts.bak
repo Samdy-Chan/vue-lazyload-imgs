@@ -1,11 +1,3 @@
-<template>
-  <div class="lazyload-all-box">
-    <!-- 默认插槽：包裹需要懒加载的图片或图片所在的容器 -->
-    <slot name="default"></slot>
-  </div>
-</template>
-
-<script lang="ts">
 // 从兼容 Vue2/Vue3 构建包的 vue-demi 库中导入组合式 Api
 import {
   defineComponent,
@@ -15,13 +7,17 @@ import {
   onMounted,
   onUnmounted,
   onUpdated,
-  useSlots,
   isVue2,
   isVue3,
   type PropType,
   type VNode,
   getCurrentInstance,
+  h,
 } from 'vue-demi';
+
+// 建议以模块格式导入组件样式，这样 Vue 会自动为样式类名添加全局唯一后缀，类似 <style lang="scss" scoped> 的作用，
+// 可在样式文件相同目录下定义其样式对象的 TS 类型，如：lazy-load-imgs.module.scss.d.ts，React 也是同样的作用和使用方法。
+import Styles from './lazy-load-imgs.module.scss';
 
 // 导入懒加载配置项参数 lazyOptions 和 observer 配置项参数
 import { lazyOptionsObj, observerOptionsObj } from '@/scripts/lazy-observer-options';
@@ -62,8 +58,47 @@ export default defineComponent({
   // 定义接收自定义事件或 v-model 双向梆定事件参数
   emits: ['update:modelValue'],
 
-  // setup 钩子函数
-  setup(props, { emit, attrs /* , slots */ }) {
+  // setup 勾子函数：当在选项式 Api 的 setup 钩子函数中需要暴露组件数据给外部使用时，需要在 setup 钩子函数的第二个对象参数
+  // 中解构出 expose 函数进行暴露数据，不能使用 defineExpose 宏函数，这个只能在 <script setup> 语法糖中使用；
+  // 但在这里解构的 expose 函数只能在 Vue3 中使用，Vue2 没有该函数，使用会报错。
+  // 经测试 Vue2 中在 onBeforeMount 钩子中直接使用 setup(props,{slots}) 解构的 slot.default 为空。
+  setup(props, { emit, attrs /* , expose, slots */ }) {
+    if (isVue2) {
+      console.log('这里是 Vue2 环境...');
+    } else if (isVue3) {
+      console.log('这里是 Vue3 环境...');
+    }
+
+    // console.log('props:', props);
+
+    // 把用户传过来的 Props 对象参数 lazyOptions 或 observerOptions 与默认的对象参数进行合并
+    const lazyOptions: ILazyOptions = Object.assign({}, lazyOptionsObj, props.lazyOptions);
+    const observerOptions: IntersectionObserverInit = Object.assign(
+      {},
+      observerOptionsObj,
+      props.observerOptions
+    );
+
+    // 保存 <img> 标签里 data-img-id 属性值的数组
+    let dataImgIdList: string[] = [];
+
+    // 【重点】创建图片懒加载实现类 Lazy 的实例对象
+    const lazy = new Lazy(lazyOptions, observerOptions);
+
+    // 当前组件实例ID（Lazy 类静态属性ID）
+    let instId = Lazy.instId;
+
+    // 获取 Vue app 实例引用（兼容 Vue2 写法：用于在 onBeforeMount 中 app.slots 获取插槽内容）
+    const app = getCurrentInstance();
+
+    // 【重点】Vue2/3 兼容写法：获取插槽内容；经测试 Vue2 中在 onBeforeMount 钩子中直接使用 setup(props,{slots})
+    // 解构的 slot.default 为空。Vue2 只能在选项式 methods 节点在 beforeMount 钩子里使用 this.$slots.default 获取，
+    // 或如下使用 const slots = app?.slots; 获取
+    const slots = app?.slots;
+
+    // 创建用于实现懒加载图片监听器的 IntersectionObserver 类的实例对象
+    let imgObserver: IntersectionObserver;
+
     /******************** 生命周期钩子函数 - start ********************/
     /**
      * 本组件实例挂载前的钩子函数
@@ -71,17 +106,13 @@ export default defineComponent({
      * 或直接传一个图片标签<img>进行懒加载的插槽内容
      */
     onBeforeMount(() => {
-      // 【重点】Vue2/3 兼容写法：获取插槽内容；经测试 Vue2 中在此 onBeforeMount 钩子中直接使用 setup(props,{slots})
-      // 解构的 slot.default 为空。Vue2 只能在选项式 methods 节点在 beforeMount 钩子里使用 this.$slots.default 获取，
-      // 或如下使用 const app = getCurrentInstance(); const slots = app?.slots; 获取
-      const slots = app?.slots;
-      // 获取本组件的默认插槽的 vnodes
-      const vnodes: VNode[] = isVue3 ? slots!.default?.()! : (slots?.default as any);
-      console.log('slot vnodes:', vnodes);
+      // 获取默认插槽的 vnode 列表
+      const defaultSlotVnodes: VNode[] = isVue3 ? app?.slots!.default?.()! : (app?.slots?.default as any);
+      console.log('default slot vnodes:', defaultSlotVnodes);
 
       // 调用懒加载实现类对象的 setImgSrcToLoadingImg 方法递归处理默认插槽内的 img 标签虚拟节点，
       // 替换原来的 src 属性为 loadingImg，并将原图src设置到 data-orig-src 属性中
-      dataImgIdList = lazy.setImgSrcToLoadingImg(vnodes, props.modelValue, emit as EmitFunc);
+      dataImgIdList = lazy.setImgSrcToLoadingImg(defaultSlotVnodes, props.modelValue, emit as EmitFunc);
       // console.log('dataImgIdList:', dataImgIdList, instId);
     });
 
@@ -146,44 +177,23 @@ export default defineComponent({
     });
     /******************** 生命周期钩子函数 - end ********************/
 
-    if (isVue2) {
-      console.log('这里是 Vue2 环境...');
-    } else if (isVue3) {
-      console.log('这里是 Vue3 环境...');
-    }
-
-    // console.log('props:', props);
-
-    // 把用户传过来的 Props 对象参数 lazyOptions 或 observerOptions 与默认的对象参数进行合并
-    const lazyOptions: ILazyOptions = Object.assign({}, lazyOptionsObj, props.lazyOptions);
-    const observerOptions: IntersectionObserverInit = Object.assign(
-      {},
-      observerOptionsObj,
-      props.observerOptions
-    );
-
-    // 保存 <img> 标签里 data-img-id 属性值的数组
-    let dataImgIdList: string[] = [];
-
-    // 【重点】创建图片懒加载实现类 Lazy 的实例对象
-    const lazy = new Lazy(lazyOptions, observerOptions);
-
-    // 当前组件实例ID（Lazy 类静态属性ID）
-    let instId = Lazy.instId;
-
-    // 获取 Vue app 实例引用（兼容 Vue2 写法：用于在 onBeforeMount 中 app.slots 获取插槽内容）
-    const app = getCurrentInstance();
-
-    // 创建用于实现懒加载图片监听器的 IntersectionObserver 类的实例对象
-    let imgObserver: IntersectionObserver;
-
     // 暴露内部变量在组件实例身上（可供外部读取）
-    return {
+    /* return {
       // 暴露本组件实例对应的实例ID（实则 Lazy 类的递增实例ID）
       instId,
+    }; */
+
+    // 一般 Vue2/Vue3 组件的兼容写法，不使用 <template></template> 标签编写渲染 html 内容，
+    // 而是使用如下返回渲染 vnode 的渲染函数；
+    return () => {
+      // 获取默认插槽的 vnode 列表，不能在顶级一次性获取插槽列表，然后到处引用，要在每次需要使用插槽列表时，都要重新读取，
+      // 否则获取到的插槽数据不是实时的，是最初始时的插槽数据。
+      // 经测试，在 Vue2 中，必须要从 app 实例对象开始重新读取插槽，不能 slots!.default 开始读取，否则首次渲染插槽内容后，
+      // 后续更新插槽内容，不会重新渲染到最新的插槽内容。
+      const defaultSlotVnodes: VNode[] = isVue3 ? app?.slots!.default?.()! : (app?.slots?.default as any);
+
+      // 返回渲染默认插槽的内容
+      return h('div', { class: Styles.lazyloadAllBox }, defaultSlotVnodes);
     };
   },
 });
-</script>
-
-<style lang="scss" scoped></style>

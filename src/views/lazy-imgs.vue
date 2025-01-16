@@ -33,8 +33,8 @@
 <script lang="ts">
 import { defineComponent, onBeforeUpdate, onMounted, onUpdated, ref } from 'vue-demi';
 
-// import LazyLoadImgs from '@/components/lazy-load-imgs.vue';
-import { LazyLoadImgs } from '@samdy-chan/vue-lazyload-imgs';
+import LazyLoadImgs from '@/components/lazy-load-imgs.vue';
+// import { LazyLoadImgs } from '@samdy-chan/vue-lazyload-imgs';
 
 import type { ILazyOptions } from '../scripts/types';
 
