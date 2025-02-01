@@ -7,16 +7,22 @@ import fs from 'node:fs';
 (async function () {
   // console.log(process.argv);
 
-  // 先设置中文不乱码环境
-  const execRes = execSync('chcp 65001');
+  // 获取操作系统平台 win32/darwin(MacOS)/linux
+  const platform = os.platform();
+
+  // 为 Windows 环境设置中文不乱码
+  try {
+    if (platform === 'win32') {
+      execSync('chcp 65001', { stdio: 'ignore' });
+    }
+  } catch (e) {
+    return console.error(`Error: ${e.toString()}`);
+  }
 
   // 获取要切换的 vue 版本号
   const version = process.argv[2];
 
   if (!version) return console.error('Error: Please provide the version to switch.');
-
-  // 获取操作系统平台 win32/darwin(MacOS)/linux
-  const platform = os.platform();
 
   let cmd = '';
 
@@ -100,7 +106,7 @@ import fs from 'node:fs';
     if (platform === 'win32') {
       cmd = `mklink /j ${link} ${target}`;
     } else if (['linux', 'darwin'].includes(platform)) {
-      cmd = `ln -s ${link} ${target}`;
+      cmd = `ln -s ${target} ${link}`;
     } else {
       return 'Error: The <npm run switch> or <yarn switch> command only supports execution on the Windows or Linux or MacOS platform.';
     }

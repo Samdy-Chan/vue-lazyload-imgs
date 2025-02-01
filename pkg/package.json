@@ -4,13 +4,13 @@
   "private": false,
   "version": "1.0.0",
   "type": "module",
-  "main": "dist/lazy-load-imgs.umd.cjs",
+  "main": "dist/lazy-load-imgs.umd.js",
   "module": "dist/lazy-load-imgs.es.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/lazy-load-imgs.es.js",
-      "require": "./dist/lazy-load-imgs.umd.cjs",
+      "require": "./dist/lazy-load-imgs.umd.js",
       "types": "./dist/index.d.ts"
     }
   },

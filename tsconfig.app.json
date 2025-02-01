@@ -23,8 +23,8 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": false,  // 自己改：原 false
-    "noUnusedParameters": false,  // 自己改：原 false
+    "noUnusedLocals": false,  // 自己改：原 true
+    "noUnusedParameters": false,  // 自己改：原 true
     "noFallthroughCasesInSwitch": true,
     // "noUncheckedSideEffectImports": true,  // 自己注释：否则报错未知编译选项
 

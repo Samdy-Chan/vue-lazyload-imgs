@@ -148,7 +148,7 @@ export default defineConfig({
     },
   },
 
-  // 你需要选择退出预 bundling 才能让 vue-demi 正常工作，vue-demi 库可用于构建打包为 vue2/vue3 通用的组件库
+  // 需要选择退出预 bundling 才能让 vue-demi 正常工作，vue-demi 库可用于构建打包为 vue2/vue3 通用的组件库
   optimizeDeps: {
     exclude: ['vue-demi'],
   },
