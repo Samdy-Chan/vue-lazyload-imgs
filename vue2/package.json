@@ -10,11 +10,11 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@samdy-chan/vue-lazyload-imgs": "../pkg",
     "@vue/composition-api": "1.7.2",
     "nanoid": "^5.0.9",
     "vue": "2.6.14",
-    "vue-demi": "^0.14.10"
+    "vue-demi": "^0.14.10",
+    "vue-lazyload-imgs": "../pkg"
   },
   "devDependencies": {
     "@types/node": "22.10.2",

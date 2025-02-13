@@ -581,9 +581,6 @@
     argparse "~1.0.9"
     string-argv "~0.3.1"
 
-"@samdy-chan/vue-lazyload-imgs@../pkg":
-  version "1.0.0"
-
 "@types/argparse@1.0.38":
   version "1.0.38"
   resolved "https://registry.npmmirror.com/@types/argparse/-/argparse-1.0.38.tgz#a81fd8606d481f873a3800c6ebae4f1d768a56a9"
@@ -1974,6 +1971,9 @@ vue-demi@^0.14.10:
   version "0.14.10"
   resolved "https://registry.npmmirror.com/vue-demi/-/vue-demi-0.14.10.tgz#afc78de3d6f9e11bf78c55e8510ee12814522f04"
   integrity sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==
+
+vue-lazyload-imgs@../pkg:
+  version "1.0.0"
 
 vue-template-babel-compiler@1.2.0:
   version "1.2.0"

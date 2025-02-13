@@ -1,20 +1,40 @@
-import { defineConfig } from 'vite';
+import { defineConfig, type PluginOption } from 'vite';
 
-import { isVue3 } from 'vue-demi';
+import { isVue3, version as vueVersion } from 'vue-demi';
 
-let vue3, vue2, legacy, vueTemplateBabelCompiler, scriptSetup;
+let vue3,
+  vue2,
+  vue27,
+  legacy,
+  vueTemplateBabelCompiler,
+  scriptSetup,
+  isVue2 = false, // vue-demi 中也有导出 isVue2，但这里要区别出 Vue2.7
+  isVue27 = false;
+
 if (isVue3) {
   // @ts-ignore
   vue3 = (await import('@vitejs/plugin-vue')).default;
 } else {
-  // @ts-ignore
-  vue2 = (await import('vite-plugin-vue2')).createVuePlugin;
+  if (vueVersion.startsWith('2.7.')) {
+    isVue27 = true;
+  } else {
+    isVue2 = true;
+  }
+
   // @ts-ignore
   legacy = (await import('@vitejs/plugin-legacy')).default;
-  // @ts-ignore
-  vueTemplateBabelCompiler = (await import('vue-template-babel-compiler')).default;
-  // @ts-ignore
-  scriptSetup = (await import('unplugin-vue2-script-setup/vite')).default;
+
+  if (isVue2) {
+    // @ts-ignore
+    vue2 = (await import('vite-plugin-vue2')).createVuePlugin;
+    // @ts-ignore
+    vueTemplateBabelCompiler = (await import('vue-template-babel-compiler')).default;
+    // @ts-ignore
+    scriptSetup = (await import('unplugin-vue2-script-setup/vite')).default;
+  } else if (isVue27) {
+    // @ts-ignore
+    vue27 = (await import('@vitejs/plugin-vue2')).default;
+  }
 }
 
 // 导入路径处理模块
@@ -29,6 +49,44 @@ import dts from 'vite-plugin-dts';
 // 自定义自动拼接 path.resolve 第一个当前路径参数的函数
 const resolve = (url: string) => {
   return path.resolve(__dirname, url);
+};
+
+// 注册 Vue 插件函数
+const regVuePlugins = () => {
+  let VuePlugins: PluginOption[] = [];
+
+  if (isVue3) {
+    VuePlugins = [vue3()];
+  } else if (isVue2) {
+    VuePlugins = [
+      vue2({
+        jsx: true,
+        vueTemplateOptions: {
+          compiler: vueTemplateBabelCompiler,
+        },
+      }),
+      scriptSetup(),
+      // @vitejs/plugin-legacy 插件只支持构建兼容旧浏览器的 Vue 应用，而不支持构建库，本例是在 build.lib 节点中配置了
+      // 构建 Vue 组件库 lazy-load-imgs.vue，所以注释掉，否则报错：@vitejs/plugin-legacy does not support library mode.
+      /* legacy({
+            targets: ['ie >= 11'],
+            additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
+          }), */
+    ];
+  } else {
+    VuePlugins = [
+      vue27(),
+      // @vitejs/plugin-legacy 插件只支持构建兼容旧浏览器的 Vue 应用，而不支持构建库，本例是在 build.lib 节点中配置了
+      // 构建 Vue 组件库 lazy-load-imgs.vue，所以注释掉，否则报错：@vitejs/plugin-legacy does not support library mode.
+      /* legacy({
+        targets: ['ie >= 11'],
+        additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
+      }), */
+    ];
+  }
+
+  // 返回相应 Vue 版本需要注册的插件
+  return VuePlugins;
 };
 
 // https://vitejs.dev/config/
@@ -65,23 +123,8 @@ export default defineConfig({
 
   // 插件配置
   plugins: [
-    isVue3
-      ? vue3()
-      : [
-          vue2({
-            jsx: true,
-            vueTemplateOptions: {
-              compiler: vueTemplateBabelCompiler,
-            },
-          }),
-          scriptSetup(),
-          // @vitejs/plugin-legacy 插件只支持构建兼容旧浏览器的 Vue 应用，而不支持构建库，本例是在 build.lib 节点中配置了
-          // 构建 Vue 组件库 lazy-load-imgs.vue，所以注释掉，否则报错：@vitejs/plugin-legacy does not support library mode.
-          /* legacy({
-        targets: ['ie >= 11'],
-        additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
-      }), */
-        ].flat(Infinity), // 打平解构 Vue2 相关插件
+    // 调用自定义函数，注册当前相应 Vue 版本官方推荐或必须的插件
+    ...regVuePlugins(),
 
     cssInjectedByJsPlugin(),
     dts({
@@ -113,7 +156,7 @@ export default defineConfig({
 
   // vue组件打包配置
   build: {
-    outDir: `dist/vue${isVue3 ? '3' : '2'}`, // 会自动接拼上 root 配置项的路径，默认重新打包前会自动清空该目录，再重新生成
+    outDir: `dist/vue${isVue3 ? '3' : isVue2 ? '2' : '2.7'}`, // 会自动接拼上 root 配置项的路径，默认重新打包前会自动清空该目录，再重新生成
     target: 'es2020',
     lib: {
       entry: `index.ts`, // 会自动接拼上 root 配置项的路径

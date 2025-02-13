@@ -20,6 +20,8 @@ import {
   type PropType,
   type VNode,
   getCurrentInstance,
+  useSlots,
+  version as vueVersion,
 } from 'vue-demi';
 
 // 导入懒加载配置项参数 lazyOptions 和 observer 配置项参数
@@ -90,11 +92,32 @@ export default defineComponent({
     // 当前组件实例ID（Lazy 类静态属性ID）
     let instId = Lazy.instId;
 
-    // 获取 Vue app 实例引用（兼容 Vue2 写法：用于在 onBeforeMount 中 app.slots 获取插槽内容）
+    // 获取 Vue app 实例引用
     const app = getCurrentInstance();
 
     // 创建用于实现懒加载图片监听器的 IntersectionObserver 类的实例对象
     let imgObserver: IntersectionObserver;
+
+    // 根据不同的 Vue 版本，使用不同的方式获取默认插槽的 VNodes 的函数
+    const getDefaultSlotVnodes = () => {
+      let defaultSlotVnodes: VNode[] = [];
+
+      // 【重点】Vue2/3 兼容写法：获取插槽内容；经测试 Vue2 中在 onBeforeMount 钩子中直接使用 setup(props,{slots})
+      // 解构的 slot.default 为空。Vue2 只能在选项式 methods 节点在 beforeMount 钩子里使用 this.$slots.default 获取，
+      // 或如下使用 const app = getCurrentInstance(); const slots = app?.slots; 获取
+      // let slots = app?.slots;  // 经测试，此方式只兼容 Vue3/Vue2.6，Vue2.7 此方式无法获取 slots，
+      // Vue2.7 需使用 let slots = useSlots(); Vue3 可以使用 app.slots 也可以使用 useSlots()
+      if (vueVersion.startsWith('2.6')) {
+        // @ts-ignore
+        let slots = app?.slots;
+        defaultSlotVnodes = slots?.default as any;
+      } else {
+        let slots = useSlots();
+        defaultSlotVnodes = slots!.default?.()!;
+      }
+
+      return defaultSlotVnodes;
+    };
 
     /******************** 生命周期钩子函数 - start ********************/
     /**
@@ -103,12 +126,8 @@ export default defineComponent({
      * 或直接传一个图片标签<img>进行懒加载的插槽内容
      */
     onBeforeMount(() => {
-      // 【重点】Vue2/3 兼容写法：获取插槽内容；经测试 Vue2 中在此 onBeforeMount 钩子中直接使用 setup(props,{slots})
-      // 解构的 slot.default 为空。Vue2 只能在选项式 methods 节点在 beforeMount 钩子里使用 this.$slots.default 获取，
-      // 或如下使用 const app = getCurrentInstance(); const slots = app?.slots; 获取
-      const slots = app?.slots;
       // 获取本组件的默认插槽的 vnodes
-      const defaultSlotVnodes: VNode[] = isVue3 ? slots!.default?.()! : (slots?.default as any);
+      const defaultSlotVnodes: VNode[] = getDefaultSlotVnodes();
       console.log('default slot vnodes:', defaultSlotVnodes);
 
       // 调用懒加载实现类对象的 setImgSrcToLoadingImg 方法递归处理默认插槽内的 img 标签虚拟节点，

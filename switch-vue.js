@@ -84,6 +84,30 @@ import fs from 'node:fs';
     );
   }
 
+  // 如果切换到 Vue2.7，需要在 tsconfig.app.json 中加入 types 配置项
+  if (version === '2.7') {
+    await modifyJsonFile(
+      'tsconfig.app.json',
+
+      `"removeComments": true,`,
+
+      `"removeComments": true,
+    // Vue2.7 需要引入 node_modules/vue/types 该类型，否则打包时，报 export default defineComponent 返回类型错误
+    "types": ["node", "vue/types"],`
+    );
+  } else {
+    await modifyJsonFile(
+      'tsconfig.app.json',
+
+      `
+    // Vue2.7 需要引入 node_modules/vue/types 该类型，否则打包时，报 export default defineComponent 返回类型错误
+    "types": ["node", "vue/types"],`,
+
+      '',
+      'm' // 'm' 为修改模式，缺省为追加内容模式 'a'
+    );
+  }
+
   // 根据提供的平台和Vue版本号生成对应的 cmd 命令
   function makeLinkCmd(platform, version) {
     version = version === '3' ? 'vue3' : version === '2' ? 'vue2' : version === '2.7' ? 'vue2.7' : '';

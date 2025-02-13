@@ -12,7 +12,7 @@ try {
   }
 } catch (e) {
   throw new Error(
-    `[vue-lazylod-imgs]: Please install Vue first, and then reinstall this component library: npm install @samdy-chan/vue-lazyload-imgs.\n${e}`
+    `[vue-lazylod-imgs]: Please install Vue first, and then reinstall this component library: npm install vue-lazyload-imgs.\n${e}`
   );
 }
 
@@ -24,11 +24,11 @@ let moduleType = import.meta
   : 'umd';
 
 // 判断当前使用的 Vue 版本
-let vue_version = version.startsWith('3') ? '3' : '2';
+let vueVersion = version.startsWith('3.') ? '3' : version.startsWith('2.7') ? '2.7' : '2';
 
 // 根据当前的 Vue 版本，释放（复制）dist/vue2 或 dist/vue3 目录下的文件到 dist 目录下
 try {
-  let srcDir = path.resolve(import.meta.dirname, `./dist/vue${vue_version}/`);
+  let srcDir = path.resolve(import.meta.dirname, `./dist/vue${vueVersion}/`);
   let destDir = path.resolve(import.meta.dirname, `./dist/`);
   fs.cpSync(srcDir, destDir, { errorOnExist: false, force: true, recursive: true });
 } catch (e) {
