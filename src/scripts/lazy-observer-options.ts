@@ -14,7 +14,7 @@ export const lazyOptionsObj: ILazyOptions = {
   loadingImg: DEFAULT_LOADING_IMG,
   // 图片加载失败状态显示的图片
   errorImg: DEFAULT_ERROR_IMG,
-  // Lazy 实例对象生命周期回调函数（默认不执行图片加载状态回调函数，需要的话，用户传入即可）
+  // 图片各加载状态生命周期回调函数（默认不执行图片加载状态回调函数，需要的话，指定即可）
   /* lifeFunc: {
         // 图片加载中的回调函数
         [ELifecycle.LOADING]: (imgEl: HTMLImageElement) => { console.log('Loading image: ', imgEl) },

@@ -1,0 +1,158 @@
+<template>
+  <div class="container">
+    <LazyLoadImgs v-model="articleList" :lazy-options="lazyOptions" html-field-name="content">
+      <div v-for="article in articleList" :key="article.id" class="article-box">
+        <table border="1" width="300">
+          <tbody>
+            <tr>
+              <th>标题</th>
+              <td>{{ article.title }}</td>
+            </tr>
+            <tr>
+              <th>作者</th>
+              <td>{{ article.author }}</td>
+            </tr>
+            <tr>
+              <th>内容</th>
+              <td>
+                <div :key="article.id" v-html="article.content"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </LazyLoadImgs>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, onUpdated, ref } from 'vue-demi';
+
+// import LazyLoadImgs from '@/components/lazy-load-imgs.vue';
+import { LazyLoadImgs } from 'vue-lazyload-imgs';
+
+import type { ILazyOptions } from '../scripts/types';
+
+import { nanoid } from 'nanoid';
+
+export default defineComponent({
+  name: 'LazyImgs',
+  components: {
+    LazyLoadImgs,
+  },
+  setup(props, { attrs, slots, emit }) {
+    const lazyRef = ref();
+
+    const lazyOptions = ref<ILazyOptions>({
+      delay: 1000,
+      lifeFunc: {
+        loading: (img: HTMLImageElement) => {
+          console.log('图片加载中', img);
+        },
+        loaded: (img: HTMLImageElement) => {
+          console.log('加载图片成功，图片地址是：', img.src, img);
+        },
+        error: (img: HTMLImageElement) => {
+          console.log('加载图片失败，图片地址是：', img.src, img);
+        },
+      },
+    });
+
+    const articleList = ref([
+      {
+        id: nanoid(8),
+        title: '文章标题1',
+        content: `
+        <p>
+          <span style="font-weight:bold;">这是文章内容1，</span>
+          <div>
+            这是文章内容1，这是文章内容1，这是文章内容1，这是文章内容1，这是文章内容1，<br/>
+            这是文章内容1，这是文章内容1，这是文章内容1，这是文章内容1，这是文章内容1，<br/>
+            这是文章内容1，这是文章内容1，这是文章内容1，这是文章内容1，这是文章内容1，<br/>
+            这是文章内容1，这是文章内容1，这是文章内容1，这是文章内容1，这是文章内容1，<br/>
+            这是文章内容1，这是文章内容1，这是文章内容1，这是文章内容1，这是文章内容1，<br/>
+            这是文章内容1，这是文章内容1，这是文章内容1，这是文章内容1，这是文章内容1，<br/>
+            这是文章内容1，这是文章内容1，这是文章内容1，这是文章内容1，这是文章内容1，<br/>
+            <img src="https://picsum.photos/200/300" />
+            <div>
+              <img src="https://picsum.photos/200/200" />
+            </div>
+          </div>
+        </p>`,
+        author: 'Samdy_Chan',
+        createTime: '2025-02-01 23:12:56',
+      },
+      {
+        id: nanoid(8),
+        title: '文章标题2',
+        content: `
+        <p>
+          <span style="font-weight:bold;">这是文章内容2，</span>
+          <div>
+            这是文章内容2，这是文章内容2，这是文章内容2，这是文章内容2，这是文章内容2，<br/>
+            这是文章内容2，这是文章内容2，这是文章内容2，这是文章内容2，这是文章内容2，<br/>
+            这是文章内容2，这是文章内容2，这是文章内容2，这是文章内容2，这是文章内容2，<br/>
+            这是文章内容2，这是文章内容2，这是文章内容2，这是文章内容2，这是文章内容2，<br/>
+            这是文章内容2，这是文章内容2，这是文章内容2，这是文章内容2，这是文章内容2，<br/>
+            这是文章内容2，这是文章内容2，这是文章内容2，这是文章内容2，这是文章内容2，<br/>
+            这是文章内容2，这是文章内容2，这是文章内容2，这是文章内容2，这是文章内容2，<br/>
+            <img src="https://picsum.photos/300/300" />
+            <div>
+              <img src="https://picsum.photos/400/400" />
+            </div>
+          </div>
+        </p>`,
+        author: 'Nana Woo',
+        createTime: '2025-02-03 12:31:28',
+      },
+      {
+        id: nanoid(8),
+        title: '文章标题3',
+        content: `
+        <p>
+          <span style="font-weight:bold;">这是文章内容3，</span>
+          <div>
+            这是文章内容3，这是文章内容3，这是文章内容3，这是文章内容3，这是文章内容3，<br/>
+            这是文章内容3，这是文章内容3，这是文章内容3，这是文章内容3，这是文章内容3，<br/>
+            这是文章内容3，这是文章内容3，这是文章内容3，这是文章内容3，这是文章内容3，<br/>
+            这是文章内容3，这是文章内容3，这是文章内容3，这是文章内容3，这是文章内容3，<br/>
+            这是文章内容3，这是文章内容3，这是文章内容3，这是文章内容3，这是文章内容3，<br/>
+            这是文章内容3，这是文章内容3，这是文章内容3，这是文章内容3，这是文章内容3，<br/>
+            这是文章内容3，这是文章内容3，这是文章内容3，这是文章内容3，这是文章内容3，<br/>
+            <img src="https://picsum.photos/200/200" />
+            <div>
+              <img src="https://picsum.photos/300/400" />
+            </div>
+          </div>
+        </p>`,
+        author: 'Chenhq',
+        createTime: '2025-02-09 21:33:18',
+      },
+    ]);
+
+    // console.log('articleList:', articleList);
+
+    /* onUpdated(() => {
+      console.log('lazy-imgs onUpdated articleList:', articleList);
+    }); */
+
+    // setup 函数式需返回状态变量及函数等给模板渲染
+    return {
+      lazyRef,
+      lazyOptions,
+      articleList,
+    };
+  },
+});
+</script>
+
+<style lang="scss" scoped>
+img {
+  width: 200px;
+  height: 200px;
+}
+
+.article-box {
+  margin-bottom: 30px;
+}
+</style>

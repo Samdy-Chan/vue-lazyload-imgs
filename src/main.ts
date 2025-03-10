@@ -1,6 +1,6 @@
 // import Vue from 'vue';
 import { isVue2, createApp, version as vueVersion } from 'vue-demi';
-// import './style.css';
+import '@/assets/css/base.scss';
 import App from './App.vue';
 
 console.log('Vue version:', vueVersion);
@@ -20,7 +20,7 @@ if (isVue2) {
   // 这个要放在以上 app.config 配置项之后，否则以上 app.config 不生效；
   // 经测试，main.ts 中的 await import() 语句会自动提升到顶部执行，所以 if 中的判断对此无效
   // @ts-ignore
-  // const CopositionApi = (await import('@vue/composition-api')).default;  // 开启后，切换到 Vue3 运行会报找不到此模块
+  // const CopositionApi = (await import('@vue/composition-api')).default; // 开启后，切换到 Vue2.7/Vue3 运行会报找不到此模块
   // Vue.use(CopositionApi); // 不能开启注册 composition-api，会重新加载组件的钩子函数
 }
 

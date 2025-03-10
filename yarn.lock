@@ -428,7 +428,7 @@
     argparse "~1.0.9"
     string-argv "~0.3.1"
 
-"@samdy-chan/vue-lazyload-imgs@./pkg":
+"vue-lazyload-imgs@./pkg":
   version "1.0.0"
 
 "@types/argparse@1.0.38":

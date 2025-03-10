@@ -29,5 +29,6 @@
     "vite-plugin-css-injected-by-js": "^3.5.2",
     "vite-plugin-dts": "^4.4.0",
     "vue-tsc": "0.38.8"
-  }
+  },
+  "license": "ISC"
 }

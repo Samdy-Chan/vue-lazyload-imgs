@@ -299,13 +299,13 @@ export function waitLoadingImg_unused(
  * @param {string} url - 文件 url
  * @returns {Promise<string>}
  */
-export async function url2base64(url: string): Promise<string> {
+export async function url2base64(url: string, imgType = 'image/jpeg'): Promise<string> {
   let base64 = '';
   // url 转 blob
   const blob = await window
     .fetch(url, {
       headers: {
-        'Content-Type': 'image/jpeg',
+        'Content-Type': imgType,
       },
     })
     .then((res) => res.blob());

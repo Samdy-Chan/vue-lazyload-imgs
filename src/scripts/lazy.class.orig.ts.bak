@@ -1,6 +1,6 @@
-import { isVue2, isVue3, VNode } from 'vue-demi';
+import { isVue2, VNode } from 'vue-demi';
 import { lazyOptionsObj, observerOptionsObj } from './lazy-observer-options';
-import { EImgCustAttr, ELifecycle, EmitFunc, ILazyOptions } from './types';
+import { EImgCustAttr, ELifecycle, EmitFunc, ILazyOptions, TModelValue } from './types';
 import { deepCopy } from './utils';
 
 /**
@@ -19,10 +19,6 @@ export class Lazy {
    */
   private _observerOptions: IntersectionObserverInit = deepCopy(observerOptionsObj);
 
-  // 由 Props 传入的自定义比如从后端获取的文章信息列表中每篇文章的 html 内容字段名，
-  // 使用 v-html 指令渲染 html 格式的文章内容时，必须传该参数
-  private _htmlFieldName: string | undefined;
-
   // 创建用于实现懒加载图片监听器的 IntersectionObserver 类的实例对象
   private _imgObserver: IntersectionObserver | null = null;
 
@@ -35,30 +31,16 @@ export class Lazy {
   // 保存 <img> 标签里 data-img-id 属性值的数组
   private _dataImgIdList: string[] = [];
 
-  // 控制台日志提示内容前缀
-  private _logMsgPrefix = '[vue-lazyload-imgs]:';
-
-  // 如果使用了内置的 v-html 指令梆定的值是通过 html 字符串数组通过 v-for 进行渲染的，必须要调用 emits 反向
-  // 修改梆定值，否则无法实现懒加载效果；
-  // 记录每个 html 数组元素，最后再调用 emits('update:modelValue', modelHtmlArr) 反向修改梆定变量
-  private _modelHtmlIdx = 0;
-  private _modelHtmlArr: object[] = [];
-
   /**
    * @description - 构造函数
    * @param lazyOptions
    * @param observerOptions
    * @memberof Lazy
    */
-  constructor(
-    lazyOptions: ILazyOptions,
-    observerOptions: IntersectionObserverInit,
-    htmlFieldName: string | undefined
-  ) {
+  constructor(lazyOptions: ILazyOptions, observerOptions: IntersectionObserverInit) {
     Lazy.instId++;
     this._lazyOptions = Object.assign(this._lazyOptions, lazyOptions);
     this._observerOptions = Object.assign(this._observerOptions, observerOptions);
-    this._htmlFieldName = htmlFieldName;
   }
 
   /**
@@ -71,7 +53,8 @@ export class Lazy {
    */
   public setImgSrcToLoadingImg(
     vnodes: VNode[],
-    modelValue: string | object[] | undefined,
+    modelValue: string | TModelValue | undefined,
+    // 兼容 Vue2 写法的自定义事件 chgImgList 更新双向梆定变量 imgList
     emits: EmitFunc
   ): string[] {
     // 如果插槽有节点内容
@@ -82,6 +65,14 @@ export class Lazy {
       const imgHtmlReg = new RegExp('<\\s*img\\s+src\\s*=\\s*.*(\\/)?\\s*>', 'gi');
       // 【支持筛选 v-html 指令中的 img 标签内容】：如果 vnode 使用了 v-html 指令，则保存指令内所有 img 标签条目
       let imgsInHtml: string[] | null = null;
+      // 如果使用了内置的 v-html 指令梆定的值是通过 html 字符串数组通过 v-for 进行渲染的，必须要调用 emits 反向
+      // 修改梆定值，否则无法实现懒加载效果；
+      // 记录每个 html 数组元素，最后再调用 emits('update:modelValue', modelHtmlArr) 反向修改梆定变量
+      let modelHtmlIdx = 0;
+      let modelHtmlArr: TModelValue = [];
+
+      // 【重点】Vue2 不支持 emit(update:modelValue') 触发事件，改用 emit('chgImgList') 自定义事件
+      const emitModelValueName = isVue2 ? 'chgImgList' : 'update:modelValue';
 
       // 开始循环遍历处理插槽的每个 vnode
       vnodes.forEach((vnode: any) => {
@@ -135,43 +126,28 @@ export class Lazy {
             });
             // 如果有传 v-model/modelValue
             if (modelValue) {
-              if (isVue3 && typeof modelValue === 'string') {
-                // 如果是 Vue3 环境、双向梆定的变量是字符串，直接一次性调用 emits 反向修改梆定变量即可
-                emits('update:modelValue', vnodeInnerHTMLObj.innerHTML);
+              if (typeof modelValue === 'string') {
+                // 如果双向梆定的变量是字符串，直接一次性调用 emits 反向修改梆定变量即可
+                emits(emitModelValueName, vnodeInnerHTMLObj.innerHTML);
               } else if (Array.isArray(modelValue)) {
-                // 必须有传递 props.htmlFieldName 才保存 modelValue 到新的对象数组 modelHtmlArr 中，
-                // 以便将 modelHtmlArr 作为以下 emits 调用函数的参数，重新触发 LazyLoadImgs 组件重新
-                // 渲染 v-html 指令梆定的 html 内容。
-                if (this._htmlFieldName) {
-                  // 如果双向梆定的变量是字符串数组，需要每次合并到数组中，最后（以下）再调用 emits 一次性反向修改梆定变量
-                  this._modelHtmlArr[this._modelHtmlIdx] = {
-                    ...modelValue[this._modelHtmlIdx],
-                    [this._htmlFieldName]: vnodeInnerHTMLObj.innerHTML,
-                  };
-                  // console.log('modelHtmlIdx:', this._modelHtmlIdx);
-                  this._modelHtmlIdx++;
-                } else if (isVue3) {
-                  // 如果是 Vue3 环境，才提示需要传 props.htmlFieldName，
-                  // 因为 Vue2 不用传 v-model 和 props.htmlFieldName 也能实现懒加载 v-html 指令梆定的图片
-                  console.error(`${this._logMsgPrefix} The Props htmlFieldName cannot be empty! 
-Please specify, for example:
-<LazyLoadImgs htmlFieldName="content">Some HTML tags</LazyLoadImgs>`);
-                  return;
-                }
+                // 如果双向梆定的变量是字符串数组，需要每次合并到数组中，最后（以下）再调用 emits 一次性反向修改梆定变量
+                modelHtmlArr[modelHtmlIdx] = {
+                  key: modelValue[modelHtmlIdx].key,
+                  htmlStr: vnodeInnerHTMLObj.innerHTML,
+                };
+                modelHtmlIdx++;
               }
             }
-            // console.log('vnodeInnerHTMLObj.innerHTML:', vnodeInnerHTMLObj.innerHTML);
-            console.log('modelHtmlArr:', JSON.stringify(this._modelHtmlArr));
+            console.log('vnodeInnerHTMLObj.innerHTML:', vnodeInnerHTMLObj.innerHTML);
+            console.log('modelHtmlArr:', JSON.stringify(modelHtmlArr));
           }
         } else {
           // 否则插槽节点有子节点
           this.setImgSrcToLoadingImg(vnode.children as VNode[], modelValue, emits);
         }
       });
-      // 如果是 Vue3 环境、有传递双向梆定的变量、有传文章内容的 html 字段名，调用 emits 一次性反向修改梆定变量
-      if (isVue3 && this._modelHtmlArr.length && this._htmlFieldName) {
-        emits('update:modelValue', this._modelHtmlArr);
-      }
+      // 如果双向梆定的变量是字符串数组，调用 emits 一次性反向修改梆定变量
+      modelHtmlArr.length && emits(emitModelValueName, modelHtmlArr);
     }
 
     // 返回已递归处理的插槽内的 img 标签对应的 data-img-id 属性值
@@ -298,11 +274,7 @@ Please specify, for example:
           }
 
           // 控制台打印加载失败信息
-          console.error(
-            `${this._logMsgPrefix} 图片加载失败，图片 url 地址是：${imgEl.getAttribute(
-              EImgCustAttr.ORIG_SRC
-            )}`
-          );
+          console.error(`图片加载失败，图片 url 地址是：${imgEl.getAttribute(EImgCustAttr.ORIG_SRC)}`);
         }
       );
     }

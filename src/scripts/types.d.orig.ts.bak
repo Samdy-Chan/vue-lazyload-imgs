@@ -1,4 +1,4 @@
-// 由 Props 传入的创建 lazy 实例对象的构造函数参数类型定义
+// 创建 lazy 实例对象的构造函数参数类型定义
 export interface ILazyOptions {
   // 图片加载中状态显示的图片
   loadingImg?: string;
@@ -30,5 +30,8 @@ export enum EImgCustAttr {
   LOAD_STATUS = 'data-load-status',
 }
 
-// Vue3/Vue2 更新 v-model/modelValue 参数的 emit('update:modelValue) 或者 emit('chgImgList') 泛型函数事件参数类型
-export type EmitFunc = (event: 'update:modelValue', ...args: any[]) => void;
+// 父组件传过来的用于梆定 v-html 渲染指令的 v-model/modelValue 的值类型
+export type TModelValue = { key: string; htmlStr: string }[];
+
+// Vue3/Vue2 更新 v-model/modelValue 参数的 emit('update:modelValue) 还是 emit('chgImgList') 泛型函数事件参数类型
+export type EmitFunc = (event: 'update:modelValue' | 'chgImgList', ...args: any[]) => void;
