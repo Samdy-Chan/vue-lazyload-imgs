@@ -13,7 +13,7 @@
     <script type="module">
         import {url2base64} from './base64.js';
         const base64 = await url2base64('./errorImg.jpg');
-        // console.log('img base64:',base64);
+        
         let base64Str = 'data:image/jpeg;base64,' + base64;
         console.log('base64Str:', base64Str);
 

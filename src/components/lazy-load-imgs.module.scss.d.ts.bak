@@ -1,5 +1,0 @@
-declare const scss: {
-  lazyloadAllBox: string;
-};
-
-export default scss;

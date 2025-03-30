@@ -1,5 +1,6 @@
 {
   "name": "vue-lazyload-imgs",
+  "description": "This Vue component vue lazyload imgs is used to implement lazy loading of images in Vue2 (Vue>=2.6.0) and Vue3 framework environments. The difference from some lazy loading image instructions is that this component can lazily load any number of images at a time, and can also lazily load v-html instructions to render images in HTML.",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -32,12 +33,20 @@
     "url": "git+https://gitcode.com/Samdy-Chan/vue-lazyload-imgs.git"
   },
   "keywords": [
-    "vue",
+    "vue-lazy-load",
+    "vue-lazyload-imgs",
     "vue2",
     "vue3",
     "lazy",
     "load",
-    "lazyLoadImg"
+    "lazyLoadImgs",
+    "lazy-load-imgs",
+    "lazyLoadImgages",
+    "lazy-load-imgages",
+    "懒加载",
+    "懒加载图片",
+    "延迟加载",
+    "延迟加载图片"
   ],
   "author": "Samdy_Chan",
   "license": "ISC"

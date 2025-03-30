@@ -1,33 +1,31 @@
 {
   "compilerOptions": {
-    // TS增量编译保存文件，用于加快编译，该文件可删除，不影响程序运行，
-    // 开启该项，须开启 composite 或 incremental 项
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
-    "composite": true,  // 如果值为 true， incremental 默认 为 true，否则 incremental 为 false
+    "composite": true,
 
     "target": "ES2022",
-    "lib": ["ES2022"],  // 自己改：原 ES2023 报错
+    "lib": ["ES2022"],
     "module": "ESNext",
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "node",  // 自己改：原 bundler 报错
-    // "allowImportingTsExtensions": true,  // 自己注释：弃用特性，已不支持
+    "moduleResolution": "node",
+    // "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": false,  // 自己改：原 true
-    "noUnusedParameters": false,  // 自己改：原 true
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    // "noUncheckedSideEffectImports": true,  // 自己注释：否则报错未知编译选项
+    // "noUncheckedSideEffectImports": true,
 
     /** 自己加如下 */
-    "noImplicitAny": false,  // 允许 any 类型
-    "allowSyntheticDefaultImports": true,  // 允许将 export xxx 或 export {} 或 module.export.xxx 合成默认导入
-    "esModuleInterop": true,  // 是否允许 ES 与 commonjs/umd 模块互操作，如果 module 为 node16 或 nodenext，默认为 true, 否则为 false
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
   },
   "include": ["vite.config.ts"]
 }

@@ -1,10 +1,22 @@
 <template>
   <div class="container">
     <h3 class="head-title">LazyLoadImgs (vue-lazyload-imgs) 图片懒加载组件的三种使用场景</h3>
-    <!-- 使用场景一：直接懒加载包含<img>标签的 html 内容-->
-    <!-- 组件标签 <LazyLoadImgs> 可以包裹要懒加载的<img>标签所在的容器，也可以直接包裹要加载的一个或多个 <img> 标签 -->
+    <div class="goto-scenes">
+      <ul>
+        <li>
+          <a href="#scene1-box"><span>跳到场景一</span></a>
+        </li>
+        <li>
+          <a href="#scene2-box"><span>跳到场景二</span></a>
+        </li>
+        <li>
+          <a href="#scene3-box"><span>跳到场景三</span></a>
+        </li>
+      </ul>
+    </div>
+
     <LazyLoadImgs>
-      <div class="scene1-box">
+      <div id="scene1-box" class="scene1-box">
         <table border="1">
           <thead>
             <tr>
@@ -42,23 +54,26 @@
       </div>
     </LazyLoadImgs>
     <div class="separate-line"></div>
-    <!-- 使用场景二：使用本组件的 v-model 指令及 html 标签如 div 的 v-html 指令渲染 html 文章内容（实现懒加载 html 中的图片），
-         本组件内的 v-model 指令值必须是至少包含唯一ID属性（如 id 或其它名称）及包含 html 内容字符串的属性（如 content 或其它名称）
-         的对象数组，该对象数组是响应式的。
-    -->
-    <div class="scene2-box">
-      <div class="scene2-title">
-        <div>场景二（如渲染 html 格式的文章列表）</div>
-        <div>
-          使用本组件的 v-model 指令及 html 标签如 div 的 v-html 指令渲染 html 文章内容（实现懒加载 html
-          中的图片）， 本组件内的 v-model 指令值必须是至少包含唯一ID属性（如 id 或其它名称）及包含 html
-          内容字符串的属性（如 content 或其它名称） 的对象数组，该对象数组是响应式的。
-        </div>
-      </div>
+
+    <div id="scene2-box" class="scene2-box">
       <LazyLoadImgs v-model="articleList" :lazy-options="lazyOptions" html-field-name="content">
-        <div v-for="article in articleList" :key="article.id" class="article-box">
+        <div v-for="(article, i) in articleList" :key="article.id" class="article-box">
           <table border="1">
+            <thead v-if="i === 0">
+              <tr>
+                <th colspan="2">场景二（如渲染 html 格式的文章列表）</th>
+              </tr>
+            </thead>
             <tbody>
+              <tr v-if="i === 0">
+                <th>说明</th>
+                <td>
+                  使用本组件的 v-model 指令及 html 标签如 div 的 v-html 指令渲染 html 文章内容（实现懒加载
+                  html 中的图片）， 本组件内的 v-model 指令值必须是至少包含唯一ID属性（如 id
+                  或其它名称）及包含 html 内容字符串的属性（如 content 或其它名称）
+                  的对象数组，该对象数组是响应式的。
+                </td>
+              </tr>
               <tr>
                 <th>标题</th>
                 <td>{{ article.title }}</td>
@@ -68,7 +83,7 @@
                 <td>{{ article.author }}</td>
               </tr>
               <tr>
-                <th>内容</th>
+                <th class="vertical-text">实现懒加载文章中的图片</th>
                 <td>
                   <div :key="article.id" v-html="article.content"></div>
                 </td>
@@ -79,14 +94,12 @@
       </LazyLoadImgs>
     </div>
     <div class="separate-line"></div>
-    <!-- 使用场景三：使用本组件的 v-model 指令，及本组件包裹内的 html 标签内的 v-html 指令
-         渲染一段 html 格式的内容
-    -->
-    <div class="scene3-box">
+
+    <div id="scene3-box" class="scene3-box">
       <table border="1">
         <thead>
           <tr>
-            <th colspan="2">场景三（只需一段 html 格式的内容）</th>
+            <th colspan="2">场景三（只渲染一段 html 格式的内容）</th>
           </tr>
         </thead>
         <tbody>
@@ -143,7 +156,6 @@ export default defineComponent({
       },
     });
 
-    // html 格式的文章列表
     const articleList = ref([
       {
         id: nanoid(8),
@@ -216,7 +228,6 @@ export default defineComponent({
       },
     ]);
 
-    // 一段 html 格式的内容
     const htmlContent = ref(`
       这是一段 html 格式的内容，这是一段 html 格式的内容，这是一段 html 格式的内容，<br/>
       这是一段 html 格式的内容，这是一段 html 格式的内容，这是一段 html 格式的内容，<br/>
@@ -231,13 +242,6 @@ export default defineComponent({
       </div>
     `);
 
-    // console.log('articleList:', articleList);
-
-    /* onUpdated(() => {
-      console.log('lazy-imgs onUpdated articleList:', articleList);
-    }); */
-
-    // setup 函数式需返回状态变量及函数等给模板渲染
     return {
       lazyRef,
       lazyOptions,
@@ -252,6 +256,7 @@ export default defineComponent({
 $sceneBoxWidth: 100%;
 $tableWidth: 800px;
 $marginBottom: 50px;
+$linkColor: #57a6f0;
 
 .container {
   margin: 8px;
@@ -265,6 +270,37 @@ $marginBottom: 50px;
     text-align: center;
   }
 
+  .goto-scenes {
+    width: $sceneBoxWidth;
+    margin-top: 40px;
+
+    ul {
+      width: 166px;
+      margin: 0 auto;
+
+      li {
+        list-style-type: none;
+        font-size: 18px;
+        font-weight: bold;
+        color: $linkColor;
+        line-height: 30px;
+
+        span {
+          vertical-align: middle;
+        }
+
+        &::before {
+          content: '▲';
+          display: inline-block;
+          transform: rotate(90deg);
+
+          margin-right: 6px;
+          line-height: normal;
+        }
+      }
+    }
+  }
+
   .scene1-box {
     width: $sceneBoxWidth;
     margin: 40px 0 $marginBottom;
@@ -272,21 +308,6 @@ $marginBottom: 50px;
 
   .scene2-box {
     width: $sceneBoxWidth;
-
-    .scene2-title {
-      width: $tableWidth;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 120px;
-      padding: 4px;
-      border: 1px solid gray;
-      margin: 0 auto; // 水平居中
-      border-bottom: none;
-      font-weight: bold;
-      background-color: #f1f1f1;
-    }
 
     .article-box {
       width: 100%;
@@ -306,7 +327,7 @@ $marginBottom: 50px;
 
   table {
     border-collapse: collapse;
-    margin: 0 auto; // 表格水平居中
+    margin: 0 auto;
     width: $tableWidth;
     background-color: #f1f1f1;
 
@@ -324,6 +345,19 @@ $marginBottom: 50px;
     width: 100%;
     border-top: 2px dashed gray;
     margin-bottom: $marginBottom;
+  }
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      color: #1b87ec !important;
+      text-decoration: none;
+    }
+
+    &:visited {
+      color: $linkColor;
+    }
   }
 }
 </style>
