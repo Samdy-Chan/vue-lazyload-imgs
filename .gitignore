@@ -12,6 +12,7 @@ dist
 
 # Self added
 !pkg/dist
+!publish/dist
 
 dist-ssr
 *.local
