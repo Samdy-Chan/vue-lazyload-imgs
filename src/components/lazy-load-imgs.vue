@@ -60,12 +60,6 @@ export default defineComponent({
   emits: isVue2 ? [] : ['update:modelValue'],
 
   setup(props, { emit, attrs }) {
-    if (isVue2) {
-      console.log('这里是 Vue2 环境...');
-    } else if (isVue3) {
-      console.log('这里是 Vue3 环境...');
-    }
-
     const lazyOptions: ILazyOptions = Object.assign({}, lazyOptionsObj, props.lazyOptions);
     const observerOptions: IntersectionObserverInit = Object.assign(
       {},

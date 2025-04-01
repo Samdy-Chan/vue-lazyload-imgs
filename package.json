@@ -1,7 +1,7 @@
 {
   "name": "vue-lazyload-imgs",
   "description": "This Vue component vue lazyload imgs is used to implement lazy loading of images in Vue2 (Vue>=2.6.0) and Vue3 framework environments. The difference from some lazy loading image instructions is that this component can lazily load any number of images at a time, and can also lazily load v-html instructions to render images in HTML.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "type": "module",
   "packageManager": "yarn@1.22.22",
