@@ -2047,7 +2047,7 @@ vue-demi@^0.14.10:
   integrity sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==
 
 vue-lazyload-imgs@../pkg:
-  version "1.0.1"
+  version "1.0.2"
 
 vue-template-babel-compiler@1.2.0:
   version "1.2.0"

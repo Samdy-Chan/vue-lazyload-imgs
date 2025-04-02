@@ -1,6 +1,4 @@
-<div style="color:#333;">
-
-### **🚀 vue-lazyload-imgs（LazyLoadImgs） 组件简介**
+## **🚀 vue-lazyload-imgs（LazyLoadImgs） 组件简介**
 
 - **适用环境**：本组件适用于运行在前端开发框架 Vue，同时兼容 Vue2（>=2.6.0）及 Vue3 版本；要求 Vue 版本必须在 2.6.0（包含） 以上及 Vue 3.x.x 版本，**即 "vue": ">=2.6.0 || ^3.0.0"**；
 
@@ -80,7 +78,7 @@
 
 <br/>
 
-### **🚀 安装方法**
+## **🚀 安装方法**
 
 ```bash
 ## npm
@@ -96,7 +94,7 @@ pnpm add vue-lazyload-imgs
 
 <br/>
 
-### **🚀 使用方法**
+## **🚀 使用方法**
 - **在 html 标签如 div 里使用 v-html 指令渲染 html 内容及实现懒加载 html 内容里的 \<img\> 图片，请查看以上【本组件简介->组件特性】第二部分。 v-html 指令需要与本组件内的 v-model 指令以及 Props 参数 htmlFieldName 一起使用。**
 
 <br/>
@@ -269,32 +267,32 @@ import { LazyLoadImgs } from 'vue-lazyload-imgs';
 
 <br/>
 
-### **🚀 Props 参数说明**
+## **🚀 Props 参数说明**
 - ##### **以下所有参数均具有默认值，均为可选参数，绝大多数情况下，本组件不用指定以下任何参数，即可实现图片懒加载功能。**
 
-<!-- observerOptions 参数说明部分 -->
-  <table style="width: 100%;">
-    <tr style="width: 100%;">
+<!-- lazyOptions 参数说明部分 -->
+  <table>
+    <tr>
       <th colspan="2" style="text-align:center;">lazyOptions 对象参数（懒加载参数  配置对象）</th>
     </tr>
     <tr>
-      <th style="width: 20%;">参数名</th>
-      <td style="width: 80%;">lazyOptions</td>
+      <th width="120" style="text-align:right;">参数名</th>
+      <td width="610">lazyOptions</td>
     </tr>
     <tr>
-      <th>类型</th>
+      <th style="text-align:right;">类型</th>
       <td>object</td>
     </tr>
     <tr>
-      <th>是否可选</th>
+      <th style="text-align:right;">是否可选</th>
       <td>是</td>
     </tr>
     <tr>
-      <th>说明</th>
+      <th style="text-align:right;">说明</th>
       <td>懒加载配置对象，包括默认预加载图片、加载失败显示的图片、加载中/加载成功/加载失  败后的处理回调函数等</td>
     </tr>
     <tr>
-      <th>默认值</th>
+      <th style="text-align:right;">默认值</th>
       <td>
   <code>
   <pre>
@@ -314,318 +312,319 @@ import { LazyLoadImgs } from 'vue-lazyload-imgs';
       </td>
     </tr>
     <tr>
-      <td colspan="2" style="padding:0;height:30px;background-color:rgb(236,   244, 255);">
-        <div style="width:100%;line-height:30px;border-top:2px dotted #000;"></  div>
+      <td colspan="2" height="30" style="padding:0;background-color:rgb(236,   244, 255);">
+        <hr style="border-top:2px dashed #999;" />
       </td>
     </tr>
     <tr>
-      <th>参数名</th>
+      <th style="text-align:right;">参数名</th>
       <td>lazyOptions.loadingImg</td>
     </tr>
     <tr>
-      <th>类型</th>
+      <th style="text-align:right;">类型</th>
       <td>string</td>
     </tr>
     <tr>
-      <th>是否可选</th>
+      <th style="text-align:right;">是否可选</th>
       <td>是</td>
     </tr>
     <tr>
-      <th>说明</th>
+      <th style="text-align:right;">说明</th>
       <td>图片加载中状态显示的图片url或base64编码</td>
     </tr>
     <tr>
-      <th>默认值</th>
+      <th style="text-align:right;">默认值</th>
       <td>组件内置的默认加载中状态图片（base64编码）</td>
     </tr>
     <tr>
-      <td colspan="2" style="padding:0;height:30px;background-color:rgb(236,   244, 255);">
-        <div style="width:100%;line-height:30px;border-top:2px dotted #000;"></  div>
+      <td colspan="2" height="30" style="padding:0;background-color:rgb(236,   244, 255);">
+        <hr style="border-top:2px dashed #999;" />
       </td>
     </tr>
     <tr>
-      <th>参数名</th>
+      <th style="text-align:right;">参数名</th>
       <td>lazyOptions.errorImg</td>
     </tr>
     <tr>
-      <th>类型</th>
+      <th style="text-align:right;">类型</th>
       <td>string</td>
     </tr>
     <tr>
-      <th>是否可选</th>
+      <th style="text-align:right;">是否可选</th>
       <td>是</td>
     </tr>
     <tr>
-      <th>说明</th>
+      <th style="text-align:right;">说明</th>
       <td>图片加载失败状态显示的图片url或base64编码</td>
     </tr>
     <tr>
-      <th>默认值</th>
+      <th style="text-align:right;">默认值</th>
       <td>组件内置的默认加载失败状态图片（base64编码）</td>
     </tr>
     <tr>
-      <td colspan="2" style="padding:0;height:30px;background-color:rgb(236,   244, 255);">
-        <div style="width:100%;line-height:30px;border-top:2px dotted #000;"></  div>
+      <td colspan="2" height="30" style="padding:0;background-color:rgb(236,   244, 255);">
+        <hr style="border-top:2px dashed #999;" />
       </td>
     </tr>
     <tr>
-      <th>参数名</th>
+      <th style="text-align:right;">参数名</th>
       <td>lazyOptions.lifeFunc</td>
     </tr>
     <tr>
-      <th>类型</th>
+      <th style="text-align:right;">类型</th>
       <td>object</td>
     </tr>
     <tr>
-      <th>是否可选</th>
+      <th style="text-align:right;">是否可选</th>
       <td>是</td>
     </tr>
     <tr>
-      <th>说明</th>
+      <th style="text-align:right;">说明</th>
       <td>图片各加载状态回调函数（默认不执行图片加载状态回调函数，需要的话，指定即可）</  td>
     </tr>
     <tr>
-      <th>默认值</th>
+      <th style="text-align:right;">默认值</th>
       <td>undefined</td>
     </tr>
     <tr>
-      <td colspan="2" style="padding:0;height:30px;background-color:rgb(236,   244, 255);">
-        <div style="width:100%;line-height:30px;border-top:2px dotted #000;"></  div>
+      <td colspan="2" height="30" style="padding:0;background-color:rgb(236,   244, 255);">
+        <hr style="border-top:2px dashed #999;" />
       </td>
     </tr>
     <tr>
-      <th>参数名</th>
+      <th style="text-align:right;">参数名</th>
       <td>lazyOptions.lifeFunc.loading</td>
     </tr>
     <tr>
-      <th>类型</th>
+      <th style="text-align:right;">类型</th>
       <td>
         Function <br/>
         (imgEl: HTMLImageElement, ...args: any[]) => any
       </td>
     </tr>
     <tr>
-      <th>是否可选</th>
+      <th style="text-align:right;">是否可选</th>
       <td>是</td>
     </tr>
     <tr>
-      <th>说明</th>
+      <th style="text-align:right;">说明</th>
       <td>图片加载中（开始加载）的回调函数</td>
     </tr>
     <tr>
-      <th>默认值</th>
+      <th style="text-align:right;">默认值</th>
       <td>undefined</td>
     </tr>
     <tr>
-      <td colspan="2" style="padding:0;height:30px;background-color:rgb(236,   244, 255);">
-        <div style="width:100%;line-height:30px;border-top:2px dotted #000;"></  div>
+      <td colspan="2" height="30" style="padding:0;background-color:rgb(236,   244, 255);">
+        <hr style="border-top:2px dashed #999;" />
       </td>
     </tr>
     <tr>
-      <th>参数名</th>
+      <th style="text-align:right;">参数名</th>
       <td>lazyOptions.lifeFunc.loaded</td>
     </tr>
     <tr>
-      <th>类型</th>
+      <th style="text-align:right;">类型</th>
       <td>
         Function <br/>
         (imgEl: HTMLImageElement, ...args: any[]) => any
       </td>
     </tr>
     <tr>
-      <th>是否可选</th>
+      <th style="text-align:right;">是否可选</th>
       <td>是</td>
     </tr>
     <tr>
-      <th>说明</th>
+      <th style="text-align:right;">说明</th>
       <td>图片加载成功（加载完成）后的回调函数</td>
     </tr>
     <tr>
-      <th>默认值</th>
+      <th style="text-align:right;">默认值</th>
       <td>undefined</td>
     </tr>
     <tr>
-      <td colspan="2" style="padding:0;height:30px;background-color:rgb(236,   244, 255);">
-        <div style="width:100%;line-height:30px;border-top:2px dotted #000;"></  div>
+      <td colspan="2" height="30" style="padding:0;background-color:rgb(236,   244, 255);">
+        <hr style="border-top:2px dashed #999;" />
       </td>
     </tr>
     <tr>
-      <th>参数名</th>
+      <th style="text-align:right;">参数名</th>
       <td>lazyOptions.lifeFunc.error</td>
     </tr>
     <tr>
-      <th>类型</th>
+      <th style="text-align:right;">类型</th>
       <td>
         Function <br/>
         (imgEl: HTMLImageElement, ...args: any[]) => any
       </td>
     </tr>
     <tr>
-      <th>是否可选</th>
+      <th style="text-align:right;">是否可选</th>
       <td>是</td>
     </tr>
     <tr>
-      <th>说明</th>
+      <th style="text-align:right;">说明</th>
       <td>图片加载失败后的回调函数</td>
     </tr>
     <tr>
-      <th>默认值</th>
+      <th style="text-align:right;">默认值</th>
       <td>undefined</td>
     </tr>
     <tr>
-      <td colspan="2" style="padding:0;height:30px;background-color:rgb(236,   244, 255);">
-        <div style="width:100%;line-height:30px;border-top:2px dotted #000;"></  div>
+      <td colspan="2" height="30" style="padding:0;background-color:rgb(236,   244, 255);">
+        <hr style="border-top:2px dashed #999;" />
       </td>
     </tr>
     <tr>
-      <th>参数名</th>
+      <th style="text-align:right;">参数名</th>
       <td>lazyOptions.delay</td>
     </tr>
     <tr>
-      <th>类型</th>
+      <th style="text-align:right;">类型</th>
       <td>number</td>
     </tr>
     <tr>
-      <th>是否可选</th>
+      <th style="text-align:right;">是否可选</th>
       <td>是</td>
     </tr>
     <tr>
-      <th>说明</th>
+      <th style="text-align:right;">说明</th>
       <td>图片进入可视范围后，延迟多久加载图片（单位ms）</td>
     </tr>
     <tr>
-      <th>默认值</th>
+      <th style="text-align:right;">默认值</th>
       <td>500</td>
     </tr>
   </table>
 
   <br/>
 
+  <br/>
+
   <!-- htmlFieldName 参数说明部分 -->
-  <table style="width: 100%;">
-    <tr style="width: 100%;">
+  <table>
+    <tr>
       <th colspan="2" style="text-align:center;">v-model指令 / v-html指令 /   htmlFieldName参数 配置<br/>
       （使用 v-html 指令渲染比如带有 &lt;img&gt; 的 html 内容需配置这三个参数）<br/>
       这三个参数的使用示例代码见如上的【本组件简介->组件特性】第二部分
       </th>
     </tr>
     <tr>
-      <th style="width: 20%;">指令名</th>
-      <td style="width: 80%;">v-model</td>
+      <th width="120" style="text-align:right;">指令名</th>
+      <td width="610">v-model</td>
     </tr>
     <tr>
-      <th>本组件要求的值类型</th>
-      <td>string | object[]
+      <th width="120" style="text-align:right;">本组件要求的值类型</th>
+      <td width="610">string | object[]
   <cdoe>
-  <pre>
-    // 如果 v-model 指令值梆定的响应式变量值是字符串，则必须是包含 html 标签内容的字符  串，则 v-html 指令值也必须设置为与 v-model 指令梆定的相同的响应式状态变量；
-    <br/>
-    // 如果 v-model 指令值梆定的响应式变量值是对象数组类型 object[]，则数组中的每个对  象必须要符合发下要求：
-    // 以下 id 和 content 是表示唯一ID和要渲染的 html 字符串的两个属性名，这两个属性名  可设置为其它名称
-    // 要求数组中的每个对象至少要包含表示唯一ID和要渲染的 html 字符串的两个属性
-    {
-      id: number | string;  // 唯一ID属性名，可以指定其它名称（必须要包含的属性）
-      content: string;  // 要渲染的 html 字符串属性名，可以指定其它名称（必须要包含的  属性）
-      [Other: string]: any;  // 还可以包含其它更多属性
+    // 如果 v-model 指令值梆定的响应式变量值是字符串，则必须是包含 html 标签内容的字符  串，则 v-html 指令值也必须设置为与 v-model 指令梆定的相同的响应式状态变量；<br/>
+    // 如果 v-model 指令值梆定的响应式变量值是对象数组类型 object[]，则数组中的每个对  象必须要符合发下要求：<br/>
+    // 以下 id 和 content 是表示唯一ID和要渲染的 html 字符串的两个属性名，这两个属性名  可设置为其它名称<br/>
+    // 要求数组中的每个对象至少要包含表示唯一ID和要渲染的 html 字符串的两个属性<br/>
+    {<br/>
+      id: number | string;  // 唯一ID属性名，可以指定其它名称（必须要包含的属性）<br/>
+      content: string;  // 要渲染的 html 字符串属性名，可以指定其它名称（必须要包含的  属性）<br/>
+      [Other: string]: any;  // 还可以包含其它更多属性<br/>
     }[]
-  </pre>
   </code>
       </td>
     </tr>
     <tr>
-      <th>是否可选</th>
+      <th style="text-align:right;">是否可选</th>
       <td>是|否</td>
     </tr>
     <tr>
-      <th>说明</th>
+      <th style="text-align:right;">说明</th>
       <td>如果需要使用 v-html 指令渲染梆定的 html 内容（如渲染 html 格式的文章内容  等），则必须需要使用该参数。值可以是 html 标签字符串（一般是包含有要实现懒加载图片  的 &lt;img&gt; 标签及其它 html 标签内容；<br/>
       值也可以是对象数组，其中数组中的每个对象，必须要有一个代表唯一ID的字段/属性（如   id)，及保存有 html 字符串的字段/属性（如 content）；<br>
       需要搭配 v-html 指令和 htmlFieldName 参数使用
       </td>
     </tr>
     <tr>
-      <th>默认值</th>
+      <th style="text-align:right;">默认值</th>
       <td>无</td>
     </tr>
     <tr>
-      <td colspan="2" style="padding:0;height:30px;background-color:rgb(236,   244, 255);">
-        <div style="width:100%;line-height:30px;border-top:2px dotted #000;"></  div>
+      <td colspan="2" height="30" style="padding:0;background-color:rgb(236,   244, 255);">
+        <hr style="border-top:2px dashed #999;" />
       </td>
     </tr>
     <tr>
-      <th>指令名</th>
+      <th style="text-align:right;">指令名</th>
       <td>v-html</td>
     </tr>
     <tr>
-      <th>本组件要求的值类型</th>
+      <th style="text-align:right;">本组件要求的值类型</th>
       <td>string</td>
     </tr>
     <tr>
-      <th>是否可选</th>
+      <th style="text-align:right;">是否可选</th>
       <td>是|否</td>
     </tr>
     <tr>
-      <th>说明</th>
+      <th style="text-align:right;">说明</th>
       <td>此 v-html 指令不是设置在本组件标签内的，是设置在本组件包裹的 html 标签如   div 标签中，指令值为 html 字符串，用于渲染 html 内容；<br/>
       如需渲染 html 格式的文章内容等场景，则需指定该 v-html 指令，需要搭配 v-model 指  令和 htmlFiledName 参数使用</td>
     </tr>
     <tr>
-      <th>默认值</th>
+      <th style="text-align:right;">默认值</th>
       <td>无</td>
     </tr>
     <tr>
-      <td colspan="2" style="padding:0;height:30px;background-color:rgb(236,   244, 255);">
-        <div style="width:100%;line-height:30px;border-top:2px dotted #000;"></  div>
+      <td colspan="2" height="30" style="padding:0;background-color:rgb(236,   244, 255);">
+        <hr style="border-top:2px dashed #999;" />
       </td>
     </tr>
     <tr>
-      <th>参数名</th>
+      <th style="text-align:right;">参数名</th>
       <td>htmlFieldName</td>
     </tr>
     <tr>
-      <th>类型</th>
+      <th style="text-align:right;">类型</th>
       <td>string</td>
     </tr>
     <tr>
-      <th>是否可选</th>
+      <th style="text-align:right;">是否可选</th>
       <td>是|否</td>
     </tr>
     <tr>
-      <th>说明</th>
+      <th style="text-align:right;">说明</th>
       <td>如果在本组件设置了 v-model 指令和通过在本组件包裹的 div 等块标签中设置   v-html 指令渲染 html 内容，并且 v-model 的梆定值不是 html 字符串类型的值，而是  对象数组类型 object[] 的值，则需要设置该参数，并且需要设置该参数值为 v-model 指  令梆定的对象数组中每个对象中存有要渲染的 html 字符串的属性/字段名，本组件需要根据  该 htmlFieldName 参数值查找每个对象中 html 字符串字段/属性中的 &lt;img&gt; 图  片标签，加入一些的自定义属性标识，进行实现懒加载图片的功能；
       本 htmlFieldName 参数，一般搭配 v-model 指令和 v-html 指令一起使用</td>
     </tr>
     <tr>
-      <th>默认值</th>
+      <th style="text-align:right;">默认值</th>
       <td>undefined</td>
     </tr>
   </table>
 
   <br/>
 
+  <br/>
+
   <!-- observerOptions 参数说明部分 -->
-  <table style="width: 100%;">
-    <tr style="width: 100%;">
+  <table>
+    <tr>
       <th colspan="2" style="text-align:center;">observerOptions 对象参数（可视范  围边界值参数配置对象）</th>
     </tr>
     <tr>
-      <th style="width: 20%;">参数名</th>
-      <td style="width: 80%;">observerOptions</td>
+      <th width="120" style="text-align:right;">参数名</th>
+      <td width="610">observerOptions</td>
     </tr>
     <tr>
-      <th>类型</th>
-      <td>IntersectionObserverInit（TS内置类型）</td>
+      <th style="text-align:right;">类型</th>
+      <td>IntersectionObserverInit（ts内置类型）</td>
     </tr>
     <tr>
-      <th>是否可选</th>
+      <th style="text-align:right;">是否可选</th>
       <td>是</td>
     </tr>
     <tr>
-      <th>说明</th>
+      <th style="text-align:right;">说明</th>
       <td>图片进入可视区监听器参数配置，<span style="font-weight:bold;  color:green">建议采用默认值即可</span></td>
     </tr>
     <tr>
-      <th>默认值</th>
+      <th style="text-align:right;">默认值</th>
       <td>
   <code>
   <pre>
@@ -638,94 +637,88 @@ import { LazyLoadImgs } from 'vue-lazyload-imgs';
   </code></td>
     </tr>
     <tr>
-      <td colspan="2" style="padding:0;height:30px;background-color:rgb(236,   244, 255);">
-        <div style="width:100%;line-height:30px;border-top:2px dotted #000;"></  div>
+      <td colspan="2" height="30" style="padding:0;background-color:rgb(236,   244, 255);">
+        <hr style="border-top:2px dashed #999;" />
       </td>
     </tr>
     <tr>
-      <th>参数名</th>
+      <th style="text-align:right;">参数名</th>
       <td>observerOptions.root</td>
     </tr>
     <tr>
-      <th>类型</th>
+      <th style="text-align:right;">类型</th>
       <td>Element | Document | null</td>
     </tr>
     <tr>
-      <th>是否可选</th>
+      <th style="text-align:right;">是否可选</th>
       <td>是</td>
     </tr>
     <tr>
-      <th>说明</th>
+      <th style="text-align:right;">说明</th>
       <td>图片进入可视交叉状态的根容器，默认为浏览器视口(null)，建议取默认值 null 即可  </td>
     </tr>
     <tr>
-      <th>默认值</th>
+      <th style="text-align:right;">默认值</th>
       <td>null</td>
     </tr>
     <tr>
-      <td colspan="2" style="padding:0;height:30px;background-color:rgb(236,   244, 255);">
-        <div style="width:100%;line-height:30px;border-top:2px dotted #000;"></  div>
+      <td colspan="2" height="30" style="padding:0;background-color:rgb(236,   244, 255);">
+        <hr style="border-top:2px dashed #999;" />
       </td>
     </tr>
     <tr>
-      <th>参数名</th>
+      <th style="text-align:right;">参数名</th>
       <td>observerOptions.rootMargin</td>
     </tr>
     <tr>
-      <th>类型</th>
+      <th style="text-align:right;">类型</th>
       <td>string</td>
     </tr>
     <tr>
-      <th>是否可选</th>
+      <th style="text-align:right;">是否可选</th>
       <td>是</td>
     </tr>
     <tr>
-      <th>说明</th>
+      <th style="text-align:right;">说明</th>
       <td>根容器 margin 值，建议取默认值 '0px' 即可</td>
     </tr>
     <tr>
-      <th>默认值</th>
+      <th style="text-align:right;">默认值</th>
       <td>'0px'</td>
     </tr>
     <tr>
-      <td colspan="2" style="padding:0;height:30px;background-color:rgb(236,   244, 255);">
-        <div style="width:100%;line-height:30px;border-top:2px dotted #000;"></  div>
+      <td colspan="2" height="30" style="padding:0;background-color:rgb(236,   244, 255);">
+        <hr style="border-top:2px dashed #999;" />
       </td>
     </tr>
     <tr>
-      <th>参数名</th>
+      <th style="text-align:right;">参数名</th>
       <td>observerOptions.threshold</td>
     </tr>
     <tr>
-      <th>类型</th>
+      <th style="text-align:right;">类型</th>
       <td>number | number[]</td>
     </tr>
     <tr>
-      <th>是否可选</th>
+      <th style="text-align:right;">是否可选</th>
       <td>是</td>
     </tr>
     <tr>
-      <th>说明</th>
+      <th style="text-align:right;">说明</th>
       <td>图片进入与根容器交叉重叠范围的百分比阀值(0-1之间)，即进入可视范围多少百分比后  进行加载，建议取默认值为 0 即可（刚进入可视边界即加载）</td>
     </tr>
     <tr>
-      <th>默认值</th>
+      <th style="text-align:right;">默认值</th>
       <td>0</td>
     </tr>
   </table>
 
-  <style>
-    table tr:not(:first-child) th {
-      text-align: right;
-    }
-  </style>
-
-</div>
-
 
 <br/>
 
-### **🚀 CHANGELOG（版本变更历史）**
+## **🚀 CHANGELOG（版本变更记录）**
 - **v1.0.0** : 完成了实现图片懒加载功能的开发与测试，包括懒加载模板中 html 标签内的 \<img\> 标签的图片，及懒加载 Vue 内置的 v-html 指令值梆定的 html 字符串内的 \<img\> 标签的图片。
 
 - **v1.0.1** : 优化代码，删除多余的代码；修改 package.json 中的对等依赖配置。
+
+- **v1.0.2** : 优化代码，添加了一些 ts 类型声明，删除一些测试文件及多余的 ts 文件。
